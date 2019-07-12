@@ -17,18 +17,22 @@ const io = require('socket.io')(server);
 io.on('connection', async function (socket) {
 
     const session = await watson.create().newSession();
-    const beginning = await session.beginConversation();
+    const beginning = await session.begin();
     socket.emit('chatbot msg', beginning);
 
     socket.on('send msg', async function (msg, callback) {
 
         socket.emit('own msg', msg);
 
-        const response = await session.sendMessage(msg);
+        const response = await session.send(msg);
         socket.emit('chatbot msg', response);
 
         if (callback) {
             callback();
         }
+    });
+
+    socket.on('disconnect', function () {
+        session.end();
     });
 });
