@@ -4,6 +4,8 @@
   "description": "Sistema para chatbot de gerenciamento de tickets",
   "main": "index.js",
   "dependencies": {
+    "@cloudant/cloudant": "^4.1.1",
+    "cfenv": "^1.2.2",
     "express": "^4.17.1",
     "ibm-watson": "^4.2.1",
     "socket.io": "^2.2.0"

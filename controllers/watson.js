@@ -22,26 +22,34 @@ async function newSession(service) {
     const session = {
         id: sessionId,
         begin: async () => { return await sendMessage(service, assistantId, sessionId, ''); },
-        send: async (msg) => { return await sendMessage(service, assistantId, sessionId, msg); },
+        send: async (msg, context) => { return await sendMessage(service, assistantId, sessionId, msg, context); },
         end: () => { endSession(service, assistantId, sessionId); }
     }
     return session;
 }
 
-async function sendMessage(service, assistantId, sessionId, messageInput) {
-    const response = await service.message({
+async function sendMessage(service, assistantId, sessionId, messageInput, context) {
+    const payload = {
         assistant_id: assistantId,
         session_id: sessionId,
         input: {
             message_type: 'text',
-            text: messageInput
+            text: messageInput,
+            options: {
+                return_context: true
+            }
         }
-    });
+    }
+    if (context) payload.context = context;
+    const response = await service.message(payload);
 
     if (response.output.generic) {
         if (response.output.generic.length > 0) {
             if (response.output.generic[0].response_type === 'text') {
-                return response.output.generic[0].text;
+                return {
+                    text: response.output.generic[0].text,
+                    context: response.context.skills['main skill'].user_defined
+                };
             }
         }
     }
