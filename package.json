@@ -4,7 +4,8 @@
   "description": "Sistema para chatbot de gerenciamento de tickets",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ibm-watson": "^4.2.1"
   },
   "devDependencies": {},
   "scripts": {
