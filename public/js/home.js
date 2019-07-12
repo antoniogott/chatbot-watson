@@ -24,6 +24,7 @@ socket.on('own msg', function (msg) {
         .addClass('rounded')
         .addClass('bg-white')
         .addClass('w-auto')
+        .css('max-width', '80%')
         .append(content);
 
     const outerDiv = $('<div />')
@@ -33,6 +34,7 @@ socket.on('own msg', function (msg) {
         .append(innerDiv);
 
     $('#messages').append(outerDiv);
+    updateScroll();
 });
 
 socket.on('chatbot msg', function (msg) {
@@ -49,6 +51,7 @@ socket.on('chatbot msg', function (msg) {
         .addClass('bg-primary')
         .addClass('text-white')
         .addClass('w-auto')
+        .css('max-width', '80%')
         .append(content);
 
     const outerDiv = $('<div />')
@@ -57,4 +60,10 @@ socket.on('chatbot msg', function (msg) {
         .append(innerDiv);
 
     $('#messages').append(outerDiv);
+    updateScroll();
 });
+
+function updateScroll() {
+    var element = document.getElementById("messages");
+    element.scrollTop = element.scrollHeight;
+}
