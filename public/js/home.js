@@ -3,9 +3,12 @@ var socket = io.connect();
 $('form#chat').submit(function (e) {
     e.preventDefault();
 
-    socket.emit('send msg', $(this).find('#msgBox').val(), function () {
-        $('form#chat #msgBox').val('');
-    });
+    const msg = $(this).find('#msgBox').val();
+    if (msg) {
+        socket.emit('send msg', msg, function () {
+            $('form#chat #msgBox').val('') || '';
+        });
+    }
 });
 
 socket.on('own msg', function (msg) {
